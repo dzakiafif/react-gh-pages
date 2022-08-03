@@ -1,0 +1,25 @@
+name: deployment
+
+on:
+  push:
+    branches: ['master']
+
+jobs:
+  react-build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+    - name: Set up node js v14
+      uses: actions/setup-node@v1
+      with:
+        node-version: 14.x
+    - name: install dependencies
+      run: npm install
+    - name: Generate Build
+      run: npm run build
+    - name: deploy
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        token: ${{ secrets.DEPLOYMENT_REACT_TOKEN }}
+        folder: build
